@@ -61,6 +61,27 @@ def batched_cbf_ko_coeffs(
 
     # the coefficient of u_f
     a_coeffs = torch.zeros((num_batches, 1, 2))
+
+    # # additional negative factor as need to match convention for expr <= 0
+    # a_coeffs[:, 0, 0] = -(-2 * x_err * torch.cos(theta) - 2 * y_err * torch.sin(theta))
+    # b_term = -(
+    #     k_1 * k_2 * r_sqr_err
+    #     - k_1 * k_2 * ko_rad**2
+    #     + 2 * k_2 * x_err * ko_vel_x
+    #     + 2 * k_2 * y_err * ko_vel_y
+    #     - 2 * k_2 * ko_rad * ko_rad_vel
+    #     + 2 * x_err * torch.sin(theta) * v * omega
+    #     + 2 * x_err * ko_accel_x
+    #     - 2 * y_err * torch.cos(theta) * v * omega
+    #     + 2 * y_err * ko_accel_y
+    #     - 2 * ko_rad * ko_rad_acc
+    #     + 2 * torch.sin(theta) ** 2 * v**2
+    #     + 2 * torch.cos(theta) ** 2 * v**2
+    #     - 2 * ko_rad_vel**2
+    #     + 2 * ko_vel_x**2
+    #     + 2 * ko_vel_y**2
+    # )
+
     a_coeffs[:, 0, 0] = (+2 * r_1 * torch.cos(theta) + 2 * r_2 * torch.sin(theta)) / (
         2 * r_sqr_err**4
     )
@@ -78,13 +99,13 @@ def batched_cbf_ko_coeffs(
         - 2 * r_1 * ko_accel_x
         + 2 * r_2 * torch.cos(theta) * v * omega
         - 2 * r_2 * ko_accel_y
-        + r_3 * torch.cos(theta) * v**2
+        + r_3 * torch.cos(2 * theta) * v**2
         + r_3 * v**2
         + 2 * r_3 * ko_vel_x**2
-        - r_4 * torch.cos(theta) * v**2
+        - r_4 * torch.cos(2 * theta) * v**2
         + r_4 * v**2
         + 2 * r_4 * ko_vel_y**2
-        + 2 * r_5 * torch.sin(theta) * v**2
+        + 2 * r_5 * torch.sin(2 * theta) * v**2
         + 4 * r_5 * ko_vel_x * ko_vel_y
     ) / (2 * r_sqr_err**4)
 

@@ -145,13 +145,13 @@ def gcbf_constr[U: Manifold](
         - 2 * r_1 * ko_accel_x
         + 2 * r_2 * torch.cos(theta) * v * omega
         - 2 * r_2 * ko_accel_y
-        + r_3 * torch.cos(theta) * v**2
+        + r_3 * torch.cos(2 * theta) * v**2
         + r_3 * v**2
         + 2 * r_3 * ko_vel_x**2
-        - r_4 * torch.cos(theta) * v**2
+        - r_4 * torch.cos(2 * theta) * v**2
         + r_4 * v**2
         + 2 * r_4 * ko_vel_y**2
-        + 2 * r_5 * torch.sin(theta) * v**2
+        + 2 * r_5 * torch.sin(2 * theta) * v**2
         + 4 * r_5 * ko_vel_x * ko_vel_y
     ) / (2 * r_sqr_err**4)
 

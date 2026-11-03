@@ -11,6 +11,9 @@
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>dyn_unicycle_msgs</depend>
+
+  <exec_depend>python3-scipy</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>
